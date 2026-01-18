@@ -1,6 +1,8 @@
 import "dotenv";
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const auth = betterAuth({
   database: new Pool({
@@ -21,3 +23,11 @@ export const auth = betterAuth({
     },
   },
 });
+
+export const redirectToLoginIfNotAuth = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) redirect("/sign-in");
+};
