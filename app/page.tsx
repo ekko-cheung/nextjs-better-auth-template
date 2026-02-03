@@ -1,5 +1,7 @@
-import Image from "next/image";
+import { trpc } from "@/trpc/server";
 
-export default function Home() {
-  return <div></div>;
+export default async function Home() {
+  const data = await trpc.hello();
+
+  return <div>{data}</div>;
 }
