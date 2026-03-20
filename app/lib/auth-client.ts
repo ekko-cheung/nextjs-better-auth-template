@@ -11,5 +11,5 @@ export const { signIn, signUp, useSession } = createAuthClient();
 export const clientRedirectToLoginIfNotAuth = async () => {
   const session = await authClient.getSession();
 
-  if (!session) redirect("/sign-in");
+  if (session?.error || !session?.data) redirect("/sign-in");
 };

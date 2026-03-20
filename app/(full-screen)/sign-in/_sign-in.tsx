@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignIn() {
@@ -22,6 +23,8 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+
+  const router = useRouter();
 
   return (
     <Card className="max-w-md flex flex-1">
@@ -92,7 +95,10 @@ export default function SignIn() {
                   onResponse: (ctx) => {
                     setLoading(false);
                   },
-                }
+                  onSuccess: () => {
+                    router.push("/");
+                  },
+                },
               );
             }}
           >
@@ -106,7 +112,7 @@ export default function SignIn() {
           <div
             className={cn(
               "w-full gap-2 flex items-center",
-              "justify-between flex-col"
+              "justify-between flex-col",
             )}
           >
             <Button
@@ -126,7 +132,7 @@ export default function SignIn() {
                     onResponse: (ctx) => {
                       setLoading(false);
                     },
-                  }
+                  },
                 );
               }}
             >
@@ -160,7 +166,7 @@ export default function SignIn() {
                     onResponse: (ctx) => {
                       setLoading(false);
                     },
-                  }
+                  },
                 );
               }}
             >
