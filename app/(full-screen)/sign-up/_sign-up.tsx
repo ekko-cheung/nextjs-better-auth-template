@@ -40,6 +40,30 @@ export default function SignUp() {
     }
   };
 
+  const handleSignUp = async () => {
+    await signUp.email({
+      email,
+      password,
+      name: `${firstName} ${lastName}`,
+      image: image ? await convertImageToBase64(image) : "",
+      callbackURL: "/",
+      fetchOptions: {
+        onResponse: () => {
+          setLoading(false);
+        },
+        onRequest: () => {
+          setLoading(true);
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+        onSuccess: async () => {
+          router.push("/");
+        },
+      },
+    });
+  };
+
   return (
     <Card className="z-50 rounded-md rounded-t-none max-w-md flex flex-1">
       <CardHeader>
@@ -148,29 +172,7 @@ export default function SignUp() {
             type="submit"
             className="w-full"
             disabled={loading}
-            onClick={async () => {
-              await signUp.email({
-                email,
-                password,
-                name: `${firstName} ${lastName}`,
-                image: image ? await convertImageToBase64(image) : "",
-                callbackURL: "/",
-                fetchOptions: {
-                  onResponse: () => {
-                    setLoading(false);
-                  },
-                  onRequest: () => {
-                    setLoading(true);
-                  },
-                  onError: (ctx) => {
-                    toast.error(ctx.error.message);
-                  },
-                  onSuccess: async () => {
-                    router.push("/");
-                  },
-                },
-              });
-            }}
+            onClick={handleSignUp}
           >
             {loading ? (
               <Loader2 size={16} className="animate-spin" />

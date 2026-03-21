@@ -26,6 +26,26 @@ export default function SignIn() {
 
   const router = useRouter();
 
+  const handleLogin = async () => {
+    await signIn.email(
+      {
+        email,
+        password,
+      },
+      {
+        onRequest: (ctx) => {
+          setLoading(true);
+        },
+        onResponse: (ctx) => {
+          setLoading(false);
+        },
+        onSuccess: () => {
+          router.push("/");
+        },
+      },
+    );
+  };
+
   return (
     <Card className="max-w-md flex flex-1">
       <CardHeader>
@@ -82,25 +102,7 @@ export default function SignIn() {
             type="submit"
             className="w-full"
             disabled={loading}
-            onClick={async () => {
-              await signIn.email(
-                {
-                  email,
-                  password,
-                },
-                {
-                  onRequest: (ctx) => {
-                    setLoading(true);
-                  },
-                  onResponse: (ctx) => {
-                    setLoading(false);
-                  },
-                  onSuccess: () => {
-                    router.push("/");
-                  },
-                },
-              );
-            }}
+            onClick={handleLogin}
           >
             {loading ? (
               <Loader2 size={16} className="animate-spin" />
